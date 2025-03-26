@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { categoryActions } from "../../store/slices/category-slices";
-import catData from "../../testdata/categoryData";
 import useHttp from "../../hooks/useHttp";
 import { BASE_URL } from "../../urls";
 const ManageCategory = () => {
@@ -11,7 +9,9 @@ const ManageCategory = () => {
   const { items } = useSelector((state) => state.category);
   const [editingId, setEditingId] = useState(null);
   const [newName, setNewName] = useState("");
+  const [newImageUrl, setNewImageUrl] = useState("");
   const [categoryName, setCategoryName] = useState("");
+  const [categoryImageaUrl, setCategoryImageaUrl] = useState("");
   // console.log(categoryActions);
 
   const handleFetchData = useCallback((data) => {
@@ -57,22 +57,27 @@ const ManageCategory = () => {
   const handleEdit = (category) => {
     setEditingId(category.id);
     setNewName(category.name);
+    setNewImageUrl(category.imageUrl);
   };
 
   const handleUpdate = async (dbId) => {
-    if (newName.trim() === "") return;
-    // const updatedCategory = await updateCategory(id, newName);
-    // if (updatedCategory) {
+    if (newName.trim() === "" && newImageUrl.trim() === "") return;
     console.log(dbId);
-    const handleUpdateFetchData = (dbId) => {
-      dispatch(categoryActions.editCategory({ dbId, name: newName }));
+    const handleUpdateFetchData = (data) => {
+      dispatch(
+        categoryActions.editCategory({
+          dbId,
+          name: newName,
+          imageUrl: newImageUrl,
+        })
+      );
       setEditingId(null);
     };
     fetchData(
       `${BASE_URL}category/${dbId}.json`,
       {
         method: "PATCH",
-        body: { name: newName },
+        body: { name: newName, imageUrl: newImageUrl },
         headers: {
           "Content-Type": "application/json",
         },
@@ -89,16 +94,22 @@ const ManageCategory = () => {
         categoryActions.addCategory({
           id: Date.now(),
           name: categoryName,
+          imageUrl: categoryImageaUrl,
           dbId: data.name,
         })
       );
       setCategoryName("");
+      setCategoryImageaUrl("");
     };
     fetchData(
       `${BASE_URL}category.json`,
       {
         method: "POST",
-        body: { id: Date.now(), name: categoryName },
+        body: {
+          id: Date.now(),
+          name: categoryName,
+          imageUrl: categoryImageaUrl,
+        },
         headers: {
           "Content-Type": "application/json",
         },
@@ -117,6 +128,13 @@ const ManageCategory = () => {
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
           className="form-control"
+        />{" "}
+        <input
+          type="text"
+          placeholder="Enter category Image Url"
+          value={categoryImageaUrl}
+          onChange={(e) => setCategoryImageaUrl(e.target.value)}
+          className="form-control"
         />
         <button className="btn btn-primary mt-2" onClick={handleAdd}>
           Add Category
@@ -126,6 +144,7 @@ const ManageCategory = () => {
         <thead className="thead-dark">
           <tr>
             <th>Category Name</th>
+            <th>Category Image</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -139,18 +158,32 @@ const ManageCategory = () => {
           ) : (
             items.map((category) => (
               <tr key={category.id}>
-                <td>
-                  {editingId === category.id ? (
+                {editingId === category.id ? (
+                  <td>
                     <input
                       type="text"
                       value={newName}
                       onChange={(e) => setNewName(e.target.value)}
                       className="form-control"
+                      required
                     />
-                  ) : (
-                    category.name
-                  )}
-                </td>
+                    <input
+                      type="text"
+                      value={newImageUrl}
+                      onChange={(e) => setNewImageUrl(e.target.value)}
+                      className="form-control"
+                      required
+                    />
+                  </td>
+                ) : (
+                  <>
+                    <td>{category.name}</td>
+                    <td>
+                      <img src={category.imageUrl} alt="no image" height="50" />
+                    </td>
+                  </>
+                )}
+
                 <td>
                   {editingId === category.id ? (
                     <button

@@ -11,15 +11,15 @@ const listingsSlice = createSlice({
     },
     removeListing: (state, action) => {
       state.items = state.items.filter(
-        (listing) => listing.id !== action.payload
+        (listing) => listing.dbId !== action.payload
       );
     },
     editListing: (state, action) => {
       const index = state.items.findIndex(
-        (listing) => listing.id === action.payload.id
+        (listing) => listing.dbId === action.payload.dbId
       );
       if (index !== -1) {
-        state.items[index] = action.payload;
+        state.items[index] = { ...state.items[index], ...action.payload };
       }
     },
     addNewListing: (state, action) => {

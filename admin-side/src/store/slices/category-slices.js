@@ -25,6 +25,7 @@ const categorySlices = createSlice({
       );
       if (index !== -1) {
         state.items[index].name = action.payload.name;
+        state.items[index].imageUrl = action.payload.imageUrl;
       }
     },
   },

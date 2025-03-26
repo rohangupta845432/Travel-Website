@@ -19,6 +19,7 @@ import Dashbord from "./pages/Dashbord";
 import { useDispatch } from "react-redux";
 import useHttp from "./hooks/useHttp";
 import { BASE_URL } from "./urls";
+import ViewListing from "./pages/listing/ViewListing";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -86,6 +87,16 @@ const App = () => {
             <ProtectRoute>
               <Layout>
                 <ManageListings />
+              </Layout>
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/listing-details/:id"
+          element={
+            <ProtectRoute>
+              <Layout>
+                <ViewListing />
               </Layout>
             </ProtectRoute>
           }

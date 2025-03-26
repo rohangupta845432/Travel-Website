@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 function ProtectRoute({ children }) {
   const navigate = useNavigate();
-  const auth = useSelector((store) => store.auth);
+  const auth = useSelector((state) => state.auth);
   useEffect(() => {
-    if (!auth.isAdminLogin) {
+    if (!auth.isUserLogin) {
       navigate("/login");
     }
   }, [auth.isLogin, navigate]);

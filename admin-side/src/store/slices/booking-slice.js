@@ -13,7 +13,9 @@ const bookingSlices = createSlice({
       state.items.push(action.payload);
     },
     updateBooking: (state, action) => {
-      const index = state.items.findIndex((b) => b.id === action.payload.id);
+      const index = state.items.findIndex(
+        (b) => b.dbId === action.payload.dbId
+      );
       if (index !== -1) {
         state.items[index].status = action.payload.status;
       }

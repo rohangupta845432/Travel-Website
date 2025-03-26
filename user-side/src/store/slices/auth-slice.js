@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAdminLogin: localStorage.getItem("isAdminLogin")
-    ? localStorage.getItem("isAdminLogin") === "true"
+  isUserLogin: localStorage.getItem("isUserLogin")
+    ? localStorage.getItem("isUserLogin") === "true"
     : false,
-  adminEmail: localStorage.getItem("adminEmail") || null,
-  adminToken: localStorage.getItem("adminToken") || null,
+  userEmail: localStorage.getItem("userEmail") || null,
+  userToken: localStorage.getItem("userToken") || null,
 };
 
 const authSlice = createSlice({
@@ -13,22 +13,22 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.isAdminLogin = true;
-      state.adminEmail = action.payload.adminEmail;
-      state.adminToken = action.payload.adminToken;
+      state.isUserLogin = true;
+      state.userEmail = action.payload.userEmail;
+      state.userToken = action.payload.userToken;
 
-      localStorage.setItem("isAdminLogin", true);
-      localStorage.setItem("adminEmail", action.payload.adminEmail);
-      localStorage.setItem("adminToken", action.payload.adminToken);
+      localStorage.setItem("isUserLogin", true);
+      localStorage.setItem("userEmail", action.payload.userEmail);
+      localStorage.setItem("userToken", action.payload.userToken);
     },
-    logout: (state, action) => {
-      state.isAdminLogin = false;
-      state.adminEmail = null;
-      state.adminToken = null;
+    logout: (state) => {
+      state.isUserLogin = false;
+      state.userEmail = null;
+      state.userToken = null;
 
-      localStorage.removeItem("isAdminLogin");
-      localStorage.removeItem("adminEmail");
-      localStorage.removeItem("adminToken");
+      localStorage.removeItem("isUserLogin");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userToken");
     },
   },
 });

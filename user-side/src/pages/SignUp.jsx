@@ -37,7 +37,7 @@ function SignUp() {
     // console.log(formData);
     const handleSuccess = (data) => {
       dispatch(
-        authAction.login({ adminEmail: data.email, adminToken: data.idToken })
+        authAction.login({ userEmail: data.email, userToken: data.idToken })
       );
       navigate("/");
     };

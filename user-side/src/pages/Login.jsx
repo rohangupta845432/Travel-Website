@@ -32,9 +32,14 @@ function Login() {
     // console.log(formData);
     const handleSuccess = (data) => {
       dispatch(
-        authAction.login({ adminEmail: data.email, adminToken: data.idToken })
+        authAction.login({ userEmail: data.email, userToken: data.idToken })
       );
-      navigate("/");
+      if (localStorage.getItem("redirectAfterLogin") || null) {
+        navigate(localStorage.getItem("redirectAfterLogin"));
+        localStorage.removeItem("redirectAfterLogin");
+      } else {
+        navigate("/");
+      }
     };
 
     fetchData(

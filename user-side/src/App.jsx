@@ -3,21 +3,13 @@ import Dashboard from "./pages/Dashbord";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Router,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ProtectRoute from "./components/ProtectRoute";
 import { useSelector } from "react-redux";
 import ManageBooking from "./pages/booking/ManageBooking";
-import { useDispatch } from "react-redux";
-import useHttp from "./hooks/useHttp";
-import { BASE_URL } from "./urls";
 import HomePage from "./pages/HomePage";
 import ListingDetail from "./pages/ListingDetails";
+import ListingPage from "./pages/ListingPage";
 
 const App = () => {
   const auth = useSelector((store) => store.auth);
@@ -42,6 +34,23 @@ const App = () => {
             </Layout>
           }
         />
+        <Route
+          path="/listing/:cat"
+          element={
+            <Layout>
+              <ListingPage />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/listing"
+          element={
+            <Layout>
+              <ListingPage />
+            </Layout>
+          }
+        />
 
         <Route
           path="/listing-details/:id"
@@ -53,7 +62,7 @@ const App = () => {
         />
 
         <Route
-          path="/booking"
+          path="/bookings"
           element={
             <ProtectRoute>
               <Layout>

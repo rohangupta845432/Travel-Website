@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const ListCard = ({ listing }) => {
   return (
     <div className="card" style={{ width: "18rem" }}>
@@ -6,9 +8,9 @@ const ListCard = ({ listing }) => {
         <h5 className="card-title">{listing.name}</h5>
         <p className="card-text">{listing.address}</p>
         <p className="card-text">Price: ${listing.price} per night</p>
-        <a className="btn btn-primary" to={`/listing-details/${listing.id}`}>
+        <Link className="btn btn-primary" to={`/listing-details/${listing.id}`}>
           View Details
-        </a>
+        </Link>
       </div>
     </div>
   );
